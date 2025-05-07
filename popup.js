@@ -24,50 +24,29 @@ function generate() {
 }
 
 function showDistribution() {
-  if (generatedNumbers.length === 0) {
-    alert("No data yet! Generate some numbers first.");
-    return;
-  }
-
-  const counts = {};
-  for (const num of generatedNumbers) {
-    counts[num] = (counts[num] || 0) + 1;
-  }
-
-  const labels = Object.keys(counts).sort((a, b) => a - b);
-  const data = labels.map(label => counts[label]);
-
-  const ctx = document.getElementById("chart").getContext("2d");
-
-  if (window.chartInstance) {
-    window.chartInstance.destroy();
-  }
-
-  setTimeout(() => {
-    window.chartInstance = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Frequency',
-          data,
-          backgroundColor: 'rgba(54, 162, 235, 0.7)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        animation: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { stepSize: 1 }
-          }
-        }
+    chrome.storage.local.get({ numbers: [] }, (data) => {
+      const generatedNumbers = data.numbers;
+      if (generatedNumbers.length === 0) {
+        document.getElementById("inlineChart").textContent = "No data yet!";
+        return;
       }
+  
+      const counts = {};
+      for (const num of generatedNumbers) {
+        counts[num] = (counts[num] || 0) + 1;
+      }
+  
+      const sortedEntries = Object.entries(counts).sort((a, b) => a[0] - b[0]);
+  
+      const lines = sortedEntries.map(([num, count]) => {
+        const bar = '█'.repeat(count);
+        return `${num.toString().padStart(4, ' ')} | ${bar} (${count})`;
+      });
+  
+      document.getElementById("inlineChart").textContent = lines.join('\n');
     });
-  }, 50);
-}
+  }
+  
 
 document.getElementById("generateBtn").addEventListener("click", generate);
 document.getElementById("showChartBtn").addEventListener("click", showDistribution);
