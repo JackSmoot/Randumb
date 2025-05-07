@@ -1,9 +1,15 @@
-function crazyRandom() {
-    let seed = performance.now();
-    let x = Math.sin(seed) * 10000;
-    x = x - Math.floor(x);
-    x = (x * 9301 + 49297) % 233280;
-    return x / 233280;
+function chaoticRandom(min, max) {
+    let raw = performance.now(); // Example: 120553.221
+    let ms = Math.floor((raw % 1000)); // Just milliseconds (0–999)
+  
+    // Chaotic transformations
+    ms = (ms * 73 + 41) ^ (ms << 1); // Multiply, add, XOR with left-shifted self
+    ms = Math.abs(ms); // Ensure positive
+  
+    // Force into bounds
+    const range = max - min + 1;
+    const final = min + (ms % range);
+    return final;
   }
   
   function generate() {
@@ -15,8 +21,7 @@ function crazyRandom() {
       return;
     }
   
-    const rand = crazyRandom();
-    const result = Math.floor(rand * (max - min + 1)) + min;
+    const result = chaoticRandom(min, max);
     document.getElementById("numberBox").textContent = result;
   }
   
