@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Randumb",
+    "version": "1.0",
+    "description": "Generates a custom random number using time-based math.",
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "randumb.png",
+        "48": "randumb.png",
+        "128": "randumb.png"
+      }
+    },
+    "permissions": []
+  }

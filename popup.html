@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Random Number Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 250px;
+      padding: 20px;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    #numberBox {
+      width: 100%;
+      height: 60px;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Time-Based RNG</h1>
+  <div id="numberBox">--</div>
+  <button onclick="generate()">Generate</button>
+
+  <script>
+    function crazyRandom() {
+      let seed = performance.now();
+      let x = Math.sin(seed) * 10000;
+      x = x - Math.floor(x);
+      x = (x * 9301 + 49297) % 233280;
+      return x / 233280;
+    }
+
+    function generate() {
+      const num = crazyRandom();
+      document.getElementById('numberBox').textContent = num.toFixed(8);
+    }
+  </script>
+</body>
+</html>
