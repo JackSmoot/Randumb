@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Random Number Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -41,15 +42,18 @@
       background-color: #007bff;
       color: white;
       cursor: pointer;
-      margin-top: 10px;
+      margin: 5px 5px 15px 5px;
     }
     button:hover {
       background-color: #0056b3;
     }
+    canvas {
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
-  <h1>Randumb</h1>
+  <h1>Time-Based RNG</h1>
   <div id="numberBox">--</div>
 
   <div>
@@ -58,6 +62,9 @@
   </div>
 
   <button id="generateBtn">Generate</button>
+  <button id="showChartBtn">Show Distribution</button>
+
+  <canvas id="chart" width="250" height="150"></canvas>
 
   <script src="popup.js"></script>
 </body>
