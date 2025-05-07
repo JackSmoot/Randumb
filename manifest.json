@@ -7,6 +7,7 @@
       "default_popup": "popup.html",
       "default_icon": {
         "16": "randumb.png",
+        "32": "randumb.png",
         "48": "randumb.png",
         "128": "randumb.png"
       }
