@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Randomness Tester</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    canvas {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random Distribution Test</h1>
+
+  <label>Min: <input id="minValue" type="number" value="1"></label>
+  <label>Max: <input id="maxValue" type="number" value="10"></label>
+  <button onclick="runTest()">Run Test</button>
+
+  <canvas id="chart" width="600" height="300"></canvas>
+
+  <script>
+    function chaoticRandom(min, max) {
+      let raw = performance.now();
+      let ms = Math.floor((raw % 1000));
+      ms = (ms * 73 + 41) ^ (ms << 1);
+      ms = Math.abs(ms);
+      const range = max - min + 1;
+      return min + (ms % range);
+    }
+
+    function runTest() {
+      const min = parseInt(document.getElementById("minValue").value, 10);
+      const max = parseInt(document.getElementById("maxValue").value, 10);
+      if (isNaN(min) || isNaN(max) || min >= max) {
+        alert("Invalid range.");
+        return;
+      }
+
+      const trials = 5000;
+      const counts = {};
+      for (let i = min; i <= max; i++) counts[i] = 0;
+
+      for (let i = 0; i < trials; i++) {
+        const r = chaoticRandom(min, max);
+        counts[r]++;
+      }
+
+      const labels = Object.keys(counts);
+      const data = Object.values(counts);
+
+      drawChart(labels, data);
+    }
+
+    function drawChart(labels, data) {
+      const ctx = document.getElementById("chart").getContext("2d");
+
+      if (window.myChart) {
+        window.myChart.destroy();
+      }
+
+      window.myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Frequency',
+            data,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
