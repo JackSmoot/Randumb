@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      width: 250px;
+      width: 280px;
       padding: 20px;
       text-align: center;
       background-color: #f4f4f4;
@@ -27,6 +27,12 @@
       align-items: center;
       margin-bottom: 20px;
     }
+    input {
+      width: 80px;
+      padding: 5px;
+      margin: 5px;
+      font-size: 14px;
+    }
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -35,6 +41,7 @@
       background-color: #007bff;
       color: white;
       cursor: pointer;
+      margin-top: 10px;
     }
     button:hover {
       background-color: #0056b3;
@@ -42,23 +49,16 @@
   </style>
 </head>
 <body>
-  <h1>Time-Based RNG</h1>
+  <h1>Randumb</h1>
   <div id="numberBox">--</div>
-  <button onclick="generate()">Generate</button>
 
-  <script>
-    function crazyRandom() {
-      let seed = performance.now();
-      let x = Math.sin(seed) * 10000;
-      x = x - Math.floor(x);
-      x = (x * 9301 + 49297) % 233280;
-      return x / 233280;
-    }
+  <div>
+    <input id="minValue" type="number" placeholder="Min" />
+    <input id="maxValue" type="number" placeholder="Max" />
+  </div>
 
-    function generate() {
-      const num = crazyRandom();
-      document.getElementById('numberBox').textContent = num.toFixed(8);
-    }
-  </script>
+  <button id="generateBtn">Generate</button>
+
+  <script src="popup.js"></script>
 </body>
 </html>
