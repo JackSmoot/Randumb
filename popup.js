@@ -22,31 +22,22 @@ function generate() {
   generatedNumbers.push(result);
   document.getElementById("numberBox").textContent = result;
 }
-
-function showDistribution() {
-    chrome.storage.local.get({ numbers: [] }, (data) => {
-      const generatedNumbers = data.numbers;
-      if (generatedNumbers.length === 0) {
-        document.getElementById("inlineChart").textContent = "No data yet!";
+  
+document.getElementById("printNumbersBtn").addEventListener("click", () => {
+    if (generatedNumbers.length === 0) {
+        alert("No numbers to copy yet!");
         return;
       }
-  
-      const counts = {};
-      for (const num of generatedNumbers) {
-        counts[num] = (counts[num] || 0) + 1;
-      }
-  
-      const sortedEntries = Object.entries(counts).sort((a, b) => a[0] - b[0]);
-  
-      const lines = sortedEntries.map(([num, count]) => {
-        const bar = '█'.repeat(count);
-        return `${num.toString().padStart(4, ' ')} | ${bar} (${count})`;
+    
+      const textToCopy = JSON.stringify(generatedNumbers);
+    
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("Number list copied to clipboard!");
+      }).catch(err => {
+        console.error("Clipboard copy failed:", err);
+        alert("Failed to copy to clipboard.");
       });
-  
-      document.getElementById("inlineChart").textContent = lines.join('\n');
-    });
-  }
-  
-
-document.getElementById("generateBtn").addEventListener("click", generate);
-document.getElementById("showChartBtn").addEventListener("click", showDistribution);
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("generateBtn").addEventListener("click", generate);
+  });
