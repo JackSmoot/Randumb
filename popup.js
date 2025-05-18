@@ -35,7 +35,7 @@ document.getElementById("printNumbersBtn").addEventListener("click", () => {
         alert("Number list copied to clipboard!");
       }).catch(err => {
         console.error("Clipboard copy failed:", err);
-        alert("Failed to copy to clipboard.");
+        alert("Failed to copy to clipboard");
       });
   });
   document.addEventListener("DOMContentLoaded", () => {
